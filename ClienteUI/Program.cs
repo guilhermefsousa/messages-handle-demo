@@ -14,21 +14,26 @@ namespace ClienteUI
 
             //Definimos todas configurações que determinam como nosso terminal irá operar.
             //Aqui vai o nome do endpoint, serve como identidade lógica para o terminal.
-            var endpointConfiguration = new EndpointConfiguration("ClienteUI");
+            var configuracaoEndpoint = new EndpointConfiguration("ClienteUI");
 
             //Aqui definimos o transporte que o NServiceBus irá usar para enviar a receber mensagens.
-            var transporte = endpointConfiguration.UseTransport<LearningTransport>();
+            var transporte = configuracaoEndpoint.UseTransport<LearningTransport>();
 
-            var endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
+            //Especificando o roteamento lógico para FazerPedido 
+            //Comandos do tipo FazerPedido devem ser enviados para o terminal de Vendas
+            var rotas = transporte.Routing();
+            rotas.RouteToEndpoint(typeof(FazerPedido), "Vendas");
 
-            await PedidosLoop(endpointInstance).ConfigureAwait(false);
+            var instanciaEndpoint = await Endpoint.Start(configuracaoEndpoint).ConfigureAwait(false);
 
-            await endpointInstance.Stop().ConfigureAwait(false);
+            await PedidosLoop(instanciaEndpoint).ConfigureAwait(false);
+
+            await instanciaEndpoint.Stop().ConfigureAwait(false);
         }
 
         private static readonly ILog Log = LogManager.GetLogger<Program>();
 
-        private static async Task PedidosLoop(IEndpointInstance endpointInstance)
+        private static async Task PedidosLoop(IEndpointInstance instanciaEndpoint)
         {
             while (true)
             {
@@ -43,7 +48,7 @@ namespace ClienteUI
 
                         Log.Info($"Enviando comando FazerPedido, PedidoId = {comando.PedidoId}");
                         //Envie o comando para o terminal local
-                        await endpointInstance.SendLocal(comando).ConfigureAwait(false);
+                        await instanciaEndpoint.Send(comando).ConfigureAwait(false);
                         break;
 
                     case ConsoleKey.S:

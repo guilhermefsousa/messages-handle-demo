@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{811E2009-18C4-4573-82E8-52BE30F4F843}</ProjectGuid>
+    <ProjectGuid>{7CED87A2-40B7-4695-8BDD-8409E31E595C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ClienteUI</RootNamespace>
-    <AssemblyName>ClienteUI</AssemblyName>
+    <RootNamespace>Vendas</RootNamespace>
+    <AssemblyName>Vendas</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -40,6 +40,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FazerPedidoHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

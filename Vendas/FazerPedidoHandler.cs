@@ -1,9 +1,10 @@
-﻿using NServiceBus;
+﻿using Messages;
+using NServiceBus;
 using NServiceBus.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace Messages
+namespace Vendas
 {
     //Manipulador de mensagens
     public class FazerPedidoHandler : IHandleMessages<FazerPedido>
