@@ -47,7 +47,7 @@ namespace ClienteUI
                         var comando = new FazerPedido();
 
                         Log.Info($"Enviando comando FazerPedido, PedidoId = {comando.PedidoId}");
-                        //Envie o comando para o terminal local
+                        //Envie o comando para os endpoints configurados nas rotas
                         await instanciaEndpoint.Send(comando).ConfigureAwait(false);
                         break;
 
