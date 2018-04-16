@@ -1,4 +1,6 @@
 ﻿using Messages;
+using NServiceBus;
+using NServiceBus.Logging;
 using System.Threading.Tasks;
 
 namespace Faturamento
