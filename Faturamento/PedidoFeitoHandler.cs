@@ -1,6 +1,4 @@
 ﻿using Messages;
-using NServiceBus;
-using NServiceBus.Logging;
 using System.Threading.Tasks;
 
 namespace Faturamento
@@ -15,7 +13,7 @@ namespace Faturamento
 
             var pedidoFaturado = new PedidoFaturado(message);
 
-            _log.Info($"PedidoFaturado Concluido, disparando evento de PedidoFeito, PedidoId: {message.PedidoId}");
+            _log.Info($"PedidoFaturado Concluido, disparando evento de PedidoFaturado, PedidoId: {message.PedidoId}");
             return context.Publish(pedidoFaturado);
         }
     }
