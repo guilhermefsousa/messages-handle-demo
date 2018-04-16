@@ -19,10 +19,17 @@ namespace ClienteUI
             //Aqui definimos o transporte que o NServiceBus irá usar para enviar a receber mensagens.
             var transporte = configuracaoEndpoint.UseTransport<LearningTransport>();
 
-            //Especificando o roteamento lógico para FazerPedido 
             //Comandos do tipo FazerPedido devem ser enviados para o terminal de Vendas
             var rotas = transporte.Routing();
+
+            //Especifique o roteamento
             rotas.RouteToEndpoint(typeof(FazerPedido), "Vendas");
+
+            //Especificando o roteamento para todas as mensagens em um Assembly
+            //rotas.RouteToEndpoint(typeof(FazerPedido).Assembly, "Vendas");
+
+            //Especifique o roteamento para todas as mensagens em um determinado assembly e namespace
+            //rotas.RouteToEndpoint(typeof(FazerPedido).Assembly, "Especifico.Vendas", "AlgumEndpoint");
 
             var instanciaEndpoint = await Endpoint.Start(configuracaoEndpoint).ConfigureAwait(false);
 
