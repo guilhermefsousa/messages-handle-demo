@@ -1,6 +1,5 @@
 ﻿using Messages;
 using NServiceBus;
-using NServiceBus.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -38,13 +37,12 @@ namespace ClienteUI
             await instanciaEndpoint.Stop().ConfigureAwait(false);
         }
 
-        private static readonly ILog Log = LogManager.GetLogger<Program>();
-
         private static async Task PedidosLoop(IEndpointInstance instanciaEndpoint)
         {
             while (true)
             {
-                Log.Info("Aperte 'P' para fazer um pedido ou 'S' para sair.");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Aperte 'P' para fazer um pedido ou 'S' para sair.");
                 var key = Console.ReadKey();
                 Console.WriteLine();
 
@@ -52,8 +50,8 @@ namespace ClienteUI
                 {
                     case ConsoleKey.P:
                         var comando = new FazerPedido();
-
-                        Log.Info($"Enviando comando FazerPedido, PedidoId = {comando.PedidoId}");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Enviando comando FazerPedido, PedidoId = {comando.PedidoId}");
                         //Envie o comando para os endpoints configurados nas rotas
                         await instanciaEndpoint.Send(comando).ConfigureAwait(false);
                         break;
@@ -62,7 +60,8 @@ namespace ClienteUI
                         return;
 
                     default:
-                        Log.Info("Entrada desconhecida. Por favor, tente novamente.");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine("Entrada desconhecida. Por favor, tente novamente.");
                         break;
                 }
             }
